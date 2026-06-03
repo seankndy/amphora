@@ -1,0 +1,65 @@
+name: Release
+
+# Tag a commit (e.g. `git tag v0.1.0 && git push origin v0.1.0`) to build the
+# Flatpak bundle and publish it as a GitHub Release. `workflow_dispatch` lets
+# you build the bundle manually (as an artifact) without cutting a release.
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write   # required to create the release
+
+jobs:
+  build:
+    name: Build Flatpak bundle
+    runs-on: ubuntu-latest
+    container:
+      # Pre-loaded with org.gnome.Platform/Sdk//50. Bump this tag in lockstep
+      # with `runtime-version` in flatpak/net.kndy.Amphora.yaml.
+      image: ghcr.io/flathub-infra/flatpak-github-actions:gnome-50
+      options: --privileged
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build bundle
+        uses: flatpak/flatpak-github-actions/flatpak-builder@v6
+        with:
+          bundle: net.kndy.Amphora.flatpak
+          manifest-path: flatpak/net.kndy.Amphora.yaml
+          cache-key: flatpak-builder-${{ github.sha }}
+          # Embed Flathub as the bundle's runtime source (== build-flatpak.sh's
+          # `--runtime-repo`), so installing the released .flatpak on a fresh
+          # machine can auto-pull org.gnome.Platform//50.
+          repository-url: https://flathub.org/repo/flathub.flatpakrepo
+
+      - name: Upload bundle artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: net.kndy.Amphora.flatpak
+          path: net.kndy.Amphora.flatpak
+          if-no-files-found: error
+
+  release:
+    name: Publish GitHub Release
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download bundle
+        uses: actions/download-artifact@v4
+        with:
+          name: net.kndy.Amphora.flatpak
+
+      - name: Name the asset after the tag
+        run: mv net.kndy.Amphora.flatpak "Amphora-${GITHUB_REF_NAME}.flatpak"
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: Amphora-*.flatpak
+          generate_release_notes: true
+          fail_on_unmatched_files: true

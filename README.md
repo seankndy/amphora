@@ -120,6 +120,20 @@ needs `flatpak` and network access (or the runtime already installed). For a
 fully offline target, also transfer the runtime once with
 `flatpak create-usb` or by installing `org.gnome.Platform//50` there first.
 
+#### Automated releases
+
+Pushing a `v*` tag triggers [`.github/workflows/release.yml`](.github/workflows/release.yml),
+which builds the bundle in CI and publishes it as a GitHub Release asset
+(`Amphora-<tag>.flatpak`):
+
+```bash
+git tag v0.1.0
+git push origin v0.1.0
+```
+
+(Keep the workflow's `gnome-50` container tag in sync with `runtime-version`
+in the manifest.)
+
 ## How it works
 
 Amphora speaks Pandora's JSON API v5, the same protocol Pithos has used for
