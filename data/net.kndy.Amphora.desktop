@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Amphora
+GenericName=Pandora Radio
+Comment=Listen to Pandora Internet Radio
+Exec=amphora
+Icon=net.kndy.Amphora
+Terminal=false
+Categories=GTK;GNOME;AudioVideo;Audio;Player;
+Keywords=Pandora;Radio;Music;Streaming;
+StartupNotify=true

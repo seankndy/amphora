@@ -1,0 +1,67 @@
+.album-art {
+  border-radius: 16px;
+  background-color: alpha(currentColor, 0.08);
+  box-shadow: 0 4px 24px alpha(black, 0.25);
+}
+
+button.loved {
+  color: @accent_color;
+}
+
+button.loved image {
+  -gtk-icon-style: regular;
+}
+
+scale {
+  min-height: 16px;
+}
+
+/* -- mini mode -- */
+.mini-bg {
+  background-color: #16181d;
+}
+
+.mini-chrome {
+  /* darken top and bottom so the controls stay legible over any art */
+  background:
+    linear-gradient(to bottom,
+      alpha(black, 0.55) 0%,
+      alpha(black, 0) 28%,
+      alpha(black, 0) 58%,
+      alpha(black, 0.65) 100%);
+}
+
+.mini-chrome button.loved {
+  color: @accent_color;
+}
+
+.mini-info {
+  text-shadow: 0 1px 3px alpha(black, 0.8);
+}
+
+.mini-info label {
+  color: white;
+}
+
+.mini-title {
+  font-weight: bold;
+}
+
+.mini-artist {
+  font-size: 0.9em;
+}
+
+.mini-album {
+  font-size: 0.85em;
+  opacity: 0.8;
+}
+
+.mini-progress {
+  min-height: 4px;
+}
+
+.mini-progress trough,
+.mini-progress progress {
+  min-height: 4px;
+  border-radius: 0;
+}

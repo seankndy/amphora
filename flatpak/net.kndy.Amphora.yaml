@@ -1,0 +1,52 @@
+id: net.kndy.Amphora
+runtime: org.gnome.Platform
+runtime-version: '50'
+sdk: org.gnome.Sdk
+command: amphora
+
+finish-args:
+  # Display + GPU
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=ipc
+  - --device=dri
+  # Audio playback
+  - --socket=pulseaudio
+  # Pandora API + album art
+  - --share=network
+  # Store the Pandora password in the system keyring (libsecret)
+  - --talk-name=org.freedesktop.secrets
+  # Song-change desktop notifications (we call the freedesktop service directly)
+  - --talk-name=org.freedesktop.Notifications
+  # Expose the player to media keys / GNOME's now-playing widget (MPRIS)
+  - --own-name=org.mpris.MediaPlayer2.Amphora
+
+# AAC + MP3 decoders (gst-libav / mpg123) ship in the GNOME 50 base runtime,
+# so no ffmpeg-full extension is required.
+
+cleanup:
+  - '*.a'
+  - '*.la'
+  - /include
+  - /lib/pkgconfig
+  - /share/man
+
+modules:
+  - python3-deps.yaml
+
+  - name: amphora
+    buildsystem: simple
+    build-commands:
+      # Install the app (deps already provided by python3-deps).
+      - pip3 install --prefix=${FLATPAK_DEST} --no-deps --no-index
+        --no-build-isolation .
+      # Desktop integration files.
+      - install -Dm644 data/net.kndy.Amphora.desktop
+        ${FLATPAK_DEST}/share/applications/net.kndy.Amphora.desktop
+      - install -Dm644 data/net.kndy.Amphora.metainfo.xml
+        ${FLATPAK_DEST}/share/metainfo/net.kndy.Amphora.metainfo.xml
+      - install -Dm644 amphora/ui/icons/hicolor/scalable/apps/net.kndy.Amphora.svg
+        ${FLATPAK_DEST}/share/icons/hicolor/scalable/apps/net.kndy.Amphora.svg
+    sources:
+      - type: dir
+        path: ..

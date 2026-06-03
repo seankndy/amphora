@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ef8a5b"/>
+      <stop offset="1" stop-color="#c4532e"/>
+    </linearGradient>
+    <linearGradient id="neck" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e9794d"/>
+      <stop offset="1" stop-color="#d2643a"/>
+    </linearGradient>
+    <clipPath id="bodyclip">
+      <path d="M64 117 C49 117 37 104 32 84 C28 69 31 57 45 51 C51 48 58 48 64 48 C70 48 77 48 83 51 C97 57 100 69 96 84 C91 104 79 117 64 117 Z"/>
+    </clipPath>
+  </defs>
+
+  <!-- handles: clean curved bars from the neck down to the shoulder -->
+  <g fill="none" stroke="#b14d2c" stroke-width="8" stroke-linecap="round">
+    <path d="M55 31 C33 30 24 42 31 59"/>
+    <path d="M73 31 C95 30 104 42 97 59"/>
+  </g>
+
+  <!-- body -->
+  <path d="M64 117 C49 117 37 104 32 84 C28 69 31 57 45 51 C51 48 58 48 64 48 C70 48 77 48 83 51 C97 57 100 69 96 84 C91 104 79 117 64 117 Z" fill="url(#body)"/>
+
+  <!-- neck -->
+  <path d="M55 50 L56 22 C56 18 72 18 72 22 L73 50 C68 46 60 46 55 50 Z" fill="url(#neck)"/>
+
+  <!-- flared rim -->
+  <path d="M47 18 C47 10 81 10 81 18 C81 24 72 27 64 27 C56 27 47 24 47 18 Z" fill="#d2643a"/>
+  <path d="M47 18 C47 13 81 13 81 18 C81 22 72 24 64 24 C56 24 47 22 47 18 Z" fill="#ef875a"/>
+
+  <!-- minimal accent band + soft sheen, clipped to the body -->
+  <g clip-path="url(#bodyclip)">
+    <rect x="24" y="70" width="80" height="10" fill="#f6ead2"/>
+    <rect x="24" y="68" width="80" height="2.4" fill="#ffffff" opacity="0.20"/>
+    <path d="M44 50 C36 66 35 96 47 116 L36 110 C27 88 29 62 38 52 Z"
+          fill="#ffffff" opacity="0.13"/>
+  </g>
+</svg>

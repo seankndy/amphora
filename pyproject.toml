@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "amphora"
+version = "0.1.0"
+description = "A modern libadwaita client for Pandora Internet Radio, in the spirit of Pithos."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "GPL-3.0-or-later" }
+authors = [{ name = "Amphora contributors" }]
+keywords = ["pandora", "radio", "gtk4", "libadwaita", "gnome", "music"]
+classifiers = [
+    "Environment :: X11 Applications :: GTK",
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    "Programming Language :: Python :: 3",
+    "Topic :: Multimedia :: Sound/Audio :: Players",
+]
+
+# These are provided by the system (PyGObject + GStreamer introspection data).
+# Listed here for completeness; install GTK4/libadwaita/GStreamer via your distro.
+dependencies = [
+    "PyGObject>=3.46",
+    "requests>=2.28",
+    "cryptography>=3.4",
+]
+
+[project.urls]
+Homepage = "https://github.com/pithos/pithos"
+
+[project.scripts]
+amphora = "amphora.application:main"
+
+[tool.setuptools]
+packages = ["amphora", "amphora.pandora", "amphora.ui"]
+
+[tool.setuptools.package-data]
+"amphora.ui" = [
+    "*.css",
+    "icons/hicolor/scalable/actions/*.svg",
+    "icons/hicolor/scalable/apps/*.svg",
+]
