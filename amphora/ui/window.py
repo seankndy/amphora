@@ -684,7 +684,7 @@ class AmphoraWindow(Adw.ApplicationWindow):
                 "A modern libadwaita client for Pandora Internet Radio, "
                 "in the spirit of Pithos."
             ),
-            website="https://github.com/pithos/pithos",
+            website="https://github.com/seankndy/amphora",
             license_type=Gtk.License.GPL_3_0,
             copyright="© 2026 Amphora contributors",
         )

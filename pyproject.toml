@@ -27,7 +27,7 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/pithos/pithos"
+Homepage = "https://github.com/seankndy/amphora"
 
 [project.scripts]
 amphora = "amphora.application:main"

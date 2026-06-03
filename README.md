@@ -6,6 +6,16 @@ fresh for **GTK 4 / libadwaita** with Python.
 
 <p align="center"><em>Sign in → pick a station → listen.</em></p>
 
+## Screenshots
+
+<p align="center">
+  <img src="data/screenshots/now-playing.png" alt="Now playing" width="320">
+  &nbsp;
+  <img src="data/screenshots/mini-player.png" alt="Mini player" width="220">
+</p>
+
+<!-- Drop PNGs into data/screenshots/ with these names and they'll appear here. -->
+
 ## Features
 
 - 🎵 Adaptive GTK4 / libadwaita interface that feels at home on modern GNOME
