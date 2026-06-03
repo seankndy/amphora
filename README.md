@@ -163,3 +163,5 @@ python3 -m pytest tests/        # or: python3 tests/run.py
 ## License
 
 GPL-3.0-or-later, matching Pithos.
+
+Amphora is not affiliated or endorsed by Pandora Media, LLC.
