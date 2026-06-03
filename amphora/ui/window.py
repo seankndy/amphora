@@ -473,7 +473,7 @@ class AmphoraWindow(Adw.ApplicationWindow):
             if token != self._art_token:
                 return  # a newer track superseded this art
             self._set_art(self._texture_from_bytes(data))
-            self._notify_now_playing(song, self._cache_cover(data))
+            self._notify_now_playing(song, self._cache_cover(data, token))
 
         def failed(_exc: Exception) -> None:
             if token == self._art_token:
@@ -483,12 +483,25 @@ class AmphoraWindow(Adw.ApplicationWindow):
         run_async(fetch, on_success=done, on_error=failed)
 
     @staticmethod
-    def _cache_cover(data: bytes) -> str | None:
-        """Write cover bytes to a cache file for the notification image."""
+    def _cache_cover(data: bytes, token: int) -> str | None:
+        """Write cover bytes to a cache file for the notification image.
+
+        The filename is unique per track: notification daemons (GNOME Shell)
+        cache the image by path, so reusing one filename makes the next song
+        show the previous song's art. A fresh path forces a reload; older
+        covers are pruned so the cache doesn't grow.
+        """
         try:
             cache_dir = os.path.join(GLib.get_user_cache_dir(), "amphora")
             os.makedirs(cache_dir, exist_ok=True)
-            path = os.path.join(cache_dir, "cover")
+            current = f"cover-{token}"
+            for name in os.listdir(cache_dir):
+                if name.startswith("cover") and name != current:
+                    try:
+                        os.remove(os.path.join(cache_dir, name))
+                    except OSError:
+                        pass
+            path = os.path.join(cache_dir, current)
             with open(path, "wb") as fh:
                 fh.write(data)
             return GLib.filename_to_uri(path, None)
